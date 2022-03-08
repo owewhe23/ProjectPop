@@ -37,6 +37,13 @@ func spawn_berries():
 			var berry = possible_berries[rand].instance()
 			add_child(berry)
 			berry.position = grid_to_pixel(i, j)
+			all_berries[i][j] = berry
+func match_at(column, row, colour):
+	if i > 1:
+		if all_berries[i - 1][j] != null && all_berries[i - 2][j] != null:
+			pass
+		pass
+	pass
 
 func grid_to_pixel(column, row):
 	var new_x = x_start + offset * column
