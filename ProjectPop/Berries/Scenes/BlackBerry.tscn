@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Berries/png's/Blackberry.png" type="Texture" id=1]
+[ext_resource path="res://Berries/Scenes/Berry.tscn" type="PackedScene" id=2]
+
+[node name="Berry" instance=ExtResource( 2 )]
+colour = "black"
+
+[node name="Sprite" parent="." index="0"]
+texture = ExtResource( 1 )
