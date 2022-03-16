@@ -1,16 +1,12 @@
 extends Node2D
 
 export (String) var colour;
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
+var move_tween
 
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	move_tween = get_node("move_tween")
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func move(target):
+	move_tween.interpolate_property(self, "position", position, target, .3, Tween.TRANS_BACK, Tween.EASE_OUT)
+	move_tween.start()
