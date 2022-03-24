@@ -92,10 +92,12 @@ func click_input():
 func swap_berries(column, row, direction):
 	var first_berry = all_berries[column][row]
 	var other_berry = all_berries[column + direction.x][row + direction.y]
-	all_berries[column][row] = other_berry
-	all_berries[column + direction.x][row + direction.y] = first_berry
-	first_berry.move(grid_to_pixel(column + direction.x, row + direction.y))
-	other_berry.move(grid_to_pixel(column, row))
+	if first_berry != null && other_berry != null:
+		all_berries[column][row] = other_berry
+		all_berries[column + direction.x][row + direction.y] = first_berry
+		first_berry.move(grid_to_pixel(column + direction.x, row + direction.y))
+		other_berry.move(grid_to_pixel(column, row))
+		find_matches()
 
 func click_difference(grid_1, grid_2):
 	var difference = grid_2 - grid_1
@@ -110,5 +112,76 @@ func click_difference(grid_1, grid_2):
 		if difference.y < 0:
 			swap_berries(grid_1.x, grid_1.y-2, Vector2(0, -1))
 
+func find_matches():
+	for i in width:
+		for j in height:
+			if all_berries[i][j] != null:
+				var current_colour = all_berries[i][j].colour
+				if i > 0 && i < width - 1:
+					if all_berries[i-1][j] != null && all_berries[i+1][j] != null:
+						if all_berries[i-1][j].colour == current_colour && all_berries[i+1][j].colour == current_colour:
+							all_berries[i-1][j].matched = true
+							all_berries[i-1][j].dim()
+							all_berries[i][j].matched = true
+							all_berries[i][j].dim()
+							all_berries[i+1][j].matched = true
+							all_berries[i+1][j].dim()
+				if j > 0 && j < height - 1:
+					if all_berries[i][j-1] != null && all_berries[i][j+1] != null:
+						if all_berries[i][j-1].colour == current_colour && all_berries[i][j+1].colour == current_colour:
+							all_berries[i][j-1].matched = true
+							all_berries[i][j-1].dim()
+							all_berries[i][j].matched = true
+							all_berries[i][j].dim()
+							all_berries[i][j+1].matched = true
+							all_berries[i][j+1].dim()
+	get_parent().get_node("destroy_timer").start()
+
 func _process(_delta):
 	click_input()
+
+func destroy_matches():
+	for i in width:
+		for j in height:
+			if all_berries[i][j] != null:
+				if all_berries[i][j].matched:
+					all_berries[i][j].queue_free()
+					all_berries[i][j] = null
+	get_parent().get_node("collapse_timer").start()
+
+func collapse_columns():
+	for i in width:
+		for j in height:
+			if all_berries[i][j] == null:
+				for k in range(j+1, height):
+					if all_berries[i][k] != null:
+						all_berries[i][k].move(grid_to_pixel(i, j))
+						all_berries[i][j] = all_berries[i][k]
+						all_berries[i][k] = null
+						break
+
+func refill_columns():
+	for i in width:
+		for j in height:
+			if all_berries[i][j] == null:
+				var rand = floor(rand_range(0, possible_berries.size()))
+				var berry = possible_berries[rand].instance()
+				var loops = 0
+				while(match_at(i, j, berry.colour) && loops <100):
+					rand = floor(rand_range(0, possible_berries.size()))
+					loops += 1
+					berry = possible_berries[rand].instance()
+				add_child(berry)
+				berry.position = grid_to_pixel(i, j)
+				all_berries[i][j] = berry
+				find_matches()
+
+func _on_destroy_timer_timeout():
+	destroy_matches()
+
+func _on_collapse_timer_timeout():
+	collapse_columns()
+	get_parent().get_node("refill_timer").start()
+
+func _on_refill_timer_timeout():
+	refill_columns()
