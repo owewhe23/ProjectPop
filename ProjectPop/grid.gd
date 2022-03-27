@@ -5,6 +5,7 @@ export (int) var height
 export (int) var x_start
 export (int) var y_start
 export (int) var offset
+export (int) var y_offset
 
 var possible_berries = [
 preload("res://Berries/Scenes/BlackBerry.tscn"),
@@ -172,7 +173,8 @@ func refill_columns():
 					loops += 1
 					berry = possible_berries[rand].instance()
 				add_child(berry)
-				berry.position = grid_to_pixel(i, j)
+				berry.position = grid_to_pixel(i, j + y_offset)
+				berry.move(grid_to_pixel(i, j))
 				all_berries[i][j] = berry
 				find_matches()
 

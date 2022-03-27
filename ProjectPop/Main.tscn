@@ -20,6 +20,7 @@ height = 10
 x_start = 672
 y_start = 792
 offset = 64
+y_offset = 3
 
 [node name="destroy_timer" type="Timer" parent="."]
 wait_time = 0.5
