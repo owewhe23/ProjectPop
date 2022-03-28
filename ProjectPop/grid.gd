@@ -1,5 +1,8 @@
 extends Node2D
 
+enum {wait, move}
+var state
+
 export (int) var width
 export (int) var height
 export (int) var x_start
@@ -17,12 +20,19 @@ preload("res://Berries/Scenes/YellowBerry.tscn")
 
 var all_berries = []
 
+var berry_one = null
+var berry_two = null
+var last_place = Vector2(0,0)
+var last_direction = Vector2(0,0)
+var move_checked = false
+
 var first_click = Vector2(0,0)
 var last_click = Vector2(0,0)
 var controlling = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	state = move
 	randomize()
 	all_berries = make_2d_array()
 	spawn_berries()
@@ -94,11 +104,14 @@ func swap_berries(column, row, direction):
 	var first_berry = all_berries[column][row]
 	var other_berry = all_berries[column + direction.x][row + direction.y]
 	if first_berry != null && other_berry != null:
+		store_info(first_berry, other_berry, Vector2(column, row), direction)
+		state = wait
 		all_berries[column][row] = other_berry
 		all_berries[column + direction.x][row + direction.y] = first_berry
 		first_berry.move(grid_to_pixel(column + direction.x, row + direction.y))
 		other_berry.move(grid_to_pixel(column, row))
-		find_matches()
+		if !move_checked:
+			find_matches()
 
 func click_difference(grid_1, grid_2):
 	var difference = grid_2 - grid_1
@@ -112,6 +125,19 @@ func click_difference(grid_1, grid_2):
 			swap_berries(grid_1.x, grid_1.y-2, Vector2(0, 1))
 		if difference.y < 0:
 			swap_berries(grid_1.x, grid_1.y-2, Vector2(0, -1))
+
+func store_info(first_berry, other_berry, place, direction):
+	berry_one = first_berry
+	berry_two = other_berry
+	last_place = place
+	last_direction = direction
+
+func swap_back():
+	if berry_one != null && berry_two != null:
+		swap_berries(last_place.x, last_place.y, last_direction)
+	state = move
+	move_checked = false
+	pass
 
 func find_matches():
 	for i in width:
@@ -139,16 +165,23 @@ func find_matches():
 	get_parent().get_node("destroy_timer").start()
 
 func _process(_delta):
-	click_input()
+	if state == move:
+		click_input()
 
 func destroy_matches():
+	var was_matched = false
 	for i in width:
 		for j in height:
 			if all_berries[i][j] != null:
 				if all_berries[i][j].matched:
+					was_matched = true
 					all_berries[i][j].queue_free()
 					all_berries[i][j] = null
-	get_parent().get_node("collapse_timer").start()
+	move_checked = true
+	if was_matched:
+		get_parent().get_node("collapse_timer").start()
+	else:
+		swap_back()
 
 func collapse_columns():
 	for i in width:
@@ -176,8 +209,19 @@ func refill_columns():
 				berry.position = grid_to_pixel(i, j + y_offset)
 				berry.move(grid_to_pixel(i, j))
 				all_berries[i][j] = berry
-				find_matches()
+	after_refill()
 
+func after_refill():
+	for i in width:
+		for j in height:
+			if all_berries[i][j] != null:
+				if match_at(i, j, all_berries[i][j].colour):
+					find_matches()
+					get_parent().get_node("destroy_timer").start()
+					return
+	state = move
+	move_checked = false
+	
 func _on_destroy_timer_timeout():
 	destroy_matches()
 
