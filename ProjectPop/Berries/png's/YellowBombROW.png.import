@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/RedSquare.png.png-ce8c016c20e6ada25dbb7d6cc55fa956.stex"
+path="res://.import/YellowBombROW.png-3f1a42836faaa3e2bf4c483a502a5270.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Berries/png's/RedSquare.png.png"
-dest_files=[ "res://.import/RedSquare.png.png-ce8c016c20e6ada25dbb7d6cc55fa956.stex" ]
+source_file="res://Berries/png's/YellowBombROW.png"
+dest_files=[ "res://.import/YellowBombROW.png-3f1a42836faaa3e2bf4c483a502a5270.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=true
+flags/filter=false
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2
@@ -31,5 +31,5 @@ process/invert_color=false
 process/normal_map_invert_y=false
 stream=false
 size_limit=0
-detect_3d=true
+detect_3d=false
 svg/scale=1.0

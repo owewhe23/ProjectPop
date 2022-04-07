@@ -19,6 +19,7 @@ preload("res://Berries/Scenes/YellowBerry.tscn")
 ]
 
 var all_berries = []
+var current_matches = []
 
 var berry_one = null
 var berry_two = null
@@ -153,6 +154,10 @@ func find_matches():
 							all_berries[i][j].dim()
 							all_berries[i+1][j].matched = true
 							all_berries[i+1][j].dim()
+							add_to_array(Vector2(i, j))
+							add_to_array(Vector2(i+1, j))
+							add_to_array(Vector2(i-1, j))
+							
 				if j > 0 && j < height - 1:
 					if all_berries[i][j-1] != null && all_berries[i][j+1] != null:
 						if all_berries[i][j-1].colour == current_colour && all_berries[i][j+1].colour == current_colour:
@@ -162,13 +167,81 @@ func find_matches():
 							all_berries[i][j].dim()
 							all_berries[i][j+1].matched = true
 							all_berries[i][j+1].dim()
+							add_to_array(Vector2(i, j))
+							add_to_array(Vector2(i, j+1))
+							add_to_array(Vector2(i, j-1))
+	get_bombed_berries()
 	get_parent().get_node("destroy_timer").start()
+
+func get_bombed_berries():
+	for i in width:
+		for j in height:
+			if all_berries[i][j] != null:
+				if all_berries[i][j].matched:
+					if all_berries[i][j].is_column_bomb:
+						match_all_in_column(i)
+					elif all_berries[i][j].is_row_bomb:
+						match_all_in_row(j)
+
+func add_to_array(value, array_to_add = current_matches):
+	if !array_to_add.has(value):
+		array_to_add.append(value)
+	pass
 
 func _process(_delta):
 	if state == move:
 		click_input()
 
+func find_bombs():
+	for i in current_matches.size():
+		var current_column = current_matches[i].x
+		var current_row = current_matches[i].y
+		var current_colour = all_berries[current_column][current_row].colour
+		var col_matched = 0
+		var row_matched = 0
+		for j in current_matches.size():
+			var this_column = current_matches[j].x
+			var this_row = current_matches[j].y
+			var this_colour = all_berries[current_column][current_row].colour
+			if this_column == current_column and current_colour == this_colour:
+				col_matched += 1
+			if this_row == current_row and this_colour == current_colour:
+				row_matched += 1
+		if col_matched == 4:
+			make_bombs(1, current_colour)
+			break
+		if row_matched == 4:
+			make_bombs(2, current_colour)
+			break
+		if col_matched == 3 and row_matched == 3:
+			make_bombs(0, current_colour)
+			break
+		if col_matched == 5 or row_matched == 5:
+			print("colour bomb")
+			break
+
+func make_bombs(bomb_type, colour):
+	for i in current_matches.size():
+		var current_column = current_matches[i].x
+		var current_row = current_matches[i].y
+		if all_berries[current_column][current_row] == berry_one and berry_one.colour:
+			berry_one.matched = false
+			change_bomb(bomb_type, berry_one)
+		if all_berries[current_column][current_row] == berry_two and berry_two.colour:
+			berry_two.matched = false
+			change_bomb(bomb_type, berry_two)
+
+func change_bomb(bomb_type, berry):
+	if bomb_type == 0:
+		berry.make_adjacent_bomb()
+	elif bomb_type == 2:
+		berry.make_row_bomb()
+	elif bomb_type == 1:
+		berry.make_column_bomb()
+
+
 func destroy_matches():
+	find_bombs()
 	var was_matched = false
 	for i in width:
 		for j in height:
@@ -182,6 +255,7 @@ func destroy_matches():
 		get_parent().get_node("collapse_timer").start()
 	else:
 		swap_back()
+	current_matches.clear()
 
 func collapse_columns():
 	for i in width:
@@ -222,6 +296,16 @@ func after_refill():
 	state = move
 	move_checked = false
 	
+func match_all_in_column(column):
+	for i in height:
+		if all_berries[column][i] != null:
+			all_berries[column][i].matched = true
+
+func match_all_in_row(row):
+	for i in width:
+		if all_berries[i][row] != null:
+			all_berries[i][row].matched = true 
+
 func _on_destroy_timer_timeout():
 	destroy_matches()
 

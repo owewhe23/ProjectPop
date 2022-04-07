@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Blackberry.png-be805092a24457f73b5fef76cd93435a.stex"
+path="res://.import/GreenBombCOL.png-3a468038c92e43c381f662d67f4d47de.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Berries/png's/Blackberry.png"
-dest_files=[ "res://.import/Blackberry.png-be805092a24457f73b5fef76cd93435a.stex" ]
+source_file="res://Berries/png's/GreenBombCOL.png"
+dest_files=[ "res://.import/GreenBombCOL.png-3a468038c92e43c381f662d67f4d47de.stex" ]
 
 [params]
 
