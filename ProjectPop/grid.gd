@@ -178,7 +178,11 @@ func get_bombed_berries():
 		for j in height:
 			if all_berries[i][j] != null:
 				if all_berries[i][j].matched:
-					if all_berries[i][j].is_column_bomb:
+					if all_berries[i][j].is_adjacent_bomb:
+						find_adjacent_berries(i, j)
+						match_all_in_column(i)
+						match_all_in_row(j)
+					elif all_berries[i][j].is_column_bomb:
 						match_all_in_column(i)
 					elif all_berries[i][j].is_row_bomb:
 						match_all_in_row(j)
@@ -186,7 +190,6 @@ func get_bombed_berries():
 func add_to_array(value, array_to_add = current_matches):
 	if !array_to_add.has(value):
 		array_to_add.append(value)
-	pass
 
 func _process(_delta):
 	if state == move:
@@ -207,19 +210,19 @@ func find_bombs():
 				col_matched += 1
 			if this_row == current_row and this_colour == current_colour:
 				row_matched += 1
-		if col_matched == 4:
-			make_bombs(1, current_colour)
-			break
-		if row_matched == 4:
-			make_bombs(2, current_colour)
-			break
-		if col_matched == 3 and row_matched == 3:
-			make_bombs(0, current_colour)
-			break
 		if col_matched == 5 or row_matched == 5:
 			print("colour bomb")
 			break
-
+		elif col_matched >= 3 and row_matched >= 3:
+			make_bombs(0, current_colour)
+			break
+		elif col_matched == 4:
+			make_bombs(1, current_colour)
+			break
+		elif row_matched == 4:
+			make_bombs(2, current_colour)
+			break
+		
 func make_bombs(bomb_type, colour):
 	for i in current_matches.size():
 		var current_column = current_matches[i].x
@@ -227,7 +230,7 @@ func make_bombs(bomb_type, colour):
 		if all_berries[current_column][current_row] == berry_one and berry_one.colour:
 			berry_one.matched = false
 			change_bomb(bomb_type, berry_one)
-		if all_berries[current_column][current_row] == berry_two and berry_two.colour:
+		elif all_berries[current_column][current_row] == berry_two and berry_two.colour:
 			berry_two.matched = false
 			change_bomb(bomb_type, berry_two)
 
@@ -258,6 +261,7 @@ func destroy_matches():
 	current_matches.clear()
 
 func collapse_columns():
+	find_bombs()
 	for i in width:
 		for j in height:
 			if all_berries[i][j] == null:
@@ -299,12 +303,34 @@ func after_refill():
 func match_all_in_column(column):
 	for i in height:
 		if all_berries[column][i] != null:
+			if all_berries[column][i].is_row_bomb:
+				match_all_in_row(i)
+				break
+			if all_berries[column][i].is_adjacent_bomb:
+				find_adjacent_berries(column, i)
 			all_berries[column][i].matched = true
+
 
 func match_all_in_row(row):
 	for i in width:
 		if all_berries[i][row] != null:
-			all_berries[i][row].matched = true 
+			if all_berries[i][row].is_column_bomb:
+				match_all_in_column(i)
+			if all_berries[i][row].is_adjacent_bomb:
+				find_adjacent_berries(i, row)
+			all_berries[i][row].matched = true
+
+func find_adjacent_berries(column, row):
+	for i in range(-1, 2):
+		for j in range (-1, 2):
+			if is_in_grid(column + i, row + j):
+				if all_berries[column + i][row + j] != null:
+					if all_berries[column +i][row + j].is_row_bomb:
+						match_all_in_row(row + j)
+					if all_berries[column +i][row + j].is_column_bomb:
+						match_all_in_column(column + i)
+					all_berries[column +i][row + j].matched = true
+
 
 func _on_destroy_timer_timeout():
 	destroy_matches()
