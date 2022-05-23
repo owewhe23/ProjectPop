@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Elevator-music.mp3-08c1c99c549d386c3b273942b48e791a.mp3str"
+
+[deps]
+
+source_file="res://Elevator-music.mp3"
+dest_files=[ "res://.import/Elevator-music.mp3-08c1c99c549d386c3b273942b48e791a.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0
