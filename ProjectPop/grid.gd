@@ -1,5 +1,7 @@
 extends Node2D
 
+signal burst
+
 enum {wait, move}
 var state
 
@@ -30,6 +32,7 @@ var move_checked = false
 var first_click = Vector2(0,0)
 var last_click = Vector2(0,0)
 var controlling = false
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -237,10 +240,16 @@ func make_bombs(bomb_type, colour):
 func change_bomb(bomb_type, berry):
 	if bomb_type == 0:
 		berry.make_adjacent_bomb()
+		emit_signal("burst")
+		connect("burst", $UI/Label,"scored_adj")
 	elif bomb_type == 2:
 		berry.make_row_bomb()
+		emit_signal("burst")
+		connect("burst", $UI/Label,"scored_row_col")
 	elif bomb_type == 1:
 		berry.make_column_bomb()
+		emit_signal("burst")
+		connect("burst", $UI/Label,"scored_row_col")
 
 
 func destroy_matches():
@@ -253,6 +262,8 @@ func destroy_matches():
 					was_matched = true
 					all_berries[i][j].queue_free()
 					all_berries[i][j] = null
+					emit_signal("burst")
+					connect("burst", $UI/Label,"scored")
 	move_checked = true
 	if was_matched:
 		get_parent().get_node("collapse_timer").start()

@@ -11,7 +11,7 @@ func _ready():
 	timer = get_node("Timer")
 	var time = rng.randf_range(3.0, 15.0)
 	$Timer.set_wait_time(time)
-	$Timer.start()
+	#$Timer.start()
 
 func _on_Timer_timeout():
 	get_tree().change_scene("res://Main.tscn")

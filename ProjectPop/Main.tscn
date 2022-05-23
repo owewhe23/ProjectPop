@@ -1,9 +1,17 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Background.png.png" type="Texture" id=1]
 [ext_resource path="res://grid.gd" type="Script" id=2]
+[ext_resource path="res://Abril_Fatface/AbrilFatface-Regular.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://Label.gd" type="Script" id=4]
 
-[node name="game-window" type="Node2D"]
+[sub_resource type="Theme" id=1]
+
+[sub_resource type="DynamicFont" id=2]
+size = 60
+font_data = ExtResource( 3 )
+
+[node name="gamewindow" type="Node2D"]
 
 [node name="background" type="TextureRect" parent="."]
 anchor_right = 1.0
@@ -13,7 +21,7 @@ margin_bottom = 1080.0
 texture = ExtResource( 1 )
 stretch_mode = 1
 
-[node name="grid" type="Node2D" parent="."]
+[node name="grid" type="Node2D" parent="." groups=["grid"]]
 script = ExtResource( 2 )
 width = 10
 height = 10
@@ -21,6 +29,20 @@ x_start = 672
 y_start = 792
 offset = 64
 y_offset = 3
+
+[node name="UI" type="Control" parent="grid"]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="Label" type="Label" parent="grid/UI"]
+margin_left = 34.0
+margin_top = 36.0
+margin_right = 182.0
+margin_bottom = 107.0
+theme = SubResource( 1 )
+custom_fonts/font = SubResource( 2 )
+text = "Score: 0"
+script = ExtResource( 4 )
 
 [node name="destroy_timer" type="Timer" parent="."]
 wait_time = 0.5
