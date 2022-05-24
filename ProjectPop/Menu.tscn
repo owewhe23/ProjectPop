@@ -40,5 +40,6 @@ margin_right = 920.0
 margin_bottom = 68.0
 text = "Quit"
 
+[connection signal="pressed" from="VBoxContainer/Timed" to="." method="_on_Timed_pressed"]
 [connection signal="pressed" from="VBoxContainer/Casual" to="." method="_on_Casual_pressed"]
 [connection signal="pressed" from="VBoxContainer/Quit" to="." method="_on_Quit_pressed"]

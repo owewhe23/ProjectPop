@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Twin-Musicom-64-Sundays.mp3-42b19c9f3902a7164a713fd165159e21.mp3str"
+
+[deps]
+
+source_file="res://Twin-Musicom-64-Sundays.mp3"
+dest_files=[ "res://.import/Twin-Musicom-64-Sundays.mp3-42b19c9f3902a7164a713fd165159e21.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

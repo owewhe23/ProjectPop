@@ -1,6 +1,8 @@
 extends Node2D
 
 signal burst
+signal row_col
+signal adj
 
 enum {wait, move}
 var state
@@ -40,6 +42,9 @@ func _ready():
 	randomize()
 	all_berries = make_2d_array()
 	spawn_berries()
+	$AudioStreamPlayer2D.play()
+	
+
 
 func make_2d_array():
 	var array = []
@@ -240,16 +245,16 @@ func make_bombs(bomb_type, colour):
 func change_bomb(bomb_type, berry):
 	if bomb_type == 0:
 		berry.make_adjacent_bomb()
-		emit_signal("burst")
-		connect("burst", $UI/Label,"scored_adj")
+		emit_signal("adj")
+		connect("adj", $UI/Label,"scored_adj")
 	elif bomb_type == 2:
 		berry.make_row_bomb()
-		emit_signal("burst")
-		connect("burst", $UI/Label,"scored_row_col")
+		emit_signal("row_col")
+		connect("row_col", $UI/Label,"scored_row_col")
 	elif bomb_type == 1:
 		berry.make_column_bomb()
-		emit_signal("burst")
-		connect("burst", $UI/Label,"scored_row_col")
+		emit_signal("row_col")
+		connect("row_col", $UI/Label,"scored_row_col")
 
 
 func destroy_matches():
