@@ -7,7 +7,6 @@ signal adj
 enum {wait, move}
 var state
 
-
 export (int) var width
 export (int) var height
 export (int) var x_start
@@ -44,7 +43,6 @@ func _ready():
 	all_berries = make_2d_array()
 	spawn_berries()
 	$AudioStreamPlayer2D.play()
-
 
 func make_2d_array():
 	var array = []
