@@ -3,13 +3,13 @@
 [ext_resource path="res://Berries/Scenes/Berry.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Berries/png's/Strawberry.png.png" type="Texture" id=2]
 [ext_resource path="res://Berries/png's/RedBombADJ.png" type="Texture" id=3]
-[ext_resource path="res://Berries/png's/RedBombROW.png" type="Texture" id=4]
-[ext_resource path="res://Berries/png's/RedBombCOL.png" type="Texture" id=5]
+[ext_resource path="res://Berries/png's/StrawberryBombCol.png.png" type="Texture" id=4]
+[ext_resource path="res://Berries/png's/StrawberryBombRow.png.png" type="Texture" id=5]
 
 [node name="Berry" instance=ExtResource( 1 )]
 colour = "red"
-row_texture = ExtResource( 4 )
-column_texture = ExtResource( 5 )
+row_texture = ExtResource( 5 )
+column_texture = ExtResource( 4 )
 adjacent_texture = ExtResource( 3 )
 
 [node name="Sprite" parent="." index="0"]
