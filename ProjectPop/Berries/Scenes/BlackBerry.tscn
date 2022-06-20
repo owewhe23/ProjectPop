@@ -2,15 +2,15 @@
 
 [ext_resource path="res://Berries/png's/Blackberry.png.png" type="Texture" id=1]
 [ext_resource path="res://Berries/Scenes/Berry.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Berries/png's/BlackBombADJ.png" type="Texture" id=3]
-[ext_resource path="res://Berries/png's/BlackBombCOL.png" type="Texture" id=4]
-[ext_resource path="res://Berries/png's/BlackBombROW.png" type="Texture" id=5]
+[ext_resource path="res://Berries/png's/BlackberryRow.png.png" type="Texture" id=3]
+[ext_resource path="res://Berries/png's/BlackberryCol.png.png" type="Texture" id=4]
+[ext_resource path="res://Berries/png's/BlackberryAdj.png.png" type="Texture" id=5]
 
 [node name="Berry" instance=ExtResource( 2 )]
 colour = "black"
-row_texture = ExtResource( 5 )
+row_texture = ExtResource( 3 )
 column_texture = ExtResource( 4 )
-adjacent_texture = ExtResource( 3 )
+adjacent_texture = ExtResource( 5 )
 
 [node name="Sprite" parent="." index="0"]
 texture = ExtResource( 1 )
