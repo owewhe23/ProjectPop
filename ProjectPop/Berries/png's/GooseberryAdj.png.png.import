@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/GooseberryRow.png.png-84e26f27d90981ffd263fb1139e5bbc6.stex"
+path="res://.import/GooseberryAdj.png.png-f6a7f06082f28de3649cae6ef69ba331.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Berries/png's/GooseberryRow.png.png"
-dest_files=[ "res://.import/GooseberryRow.png.png-84e26f27d90981ffd263fb1139e5bbc6.stex" ]
+source_file="res://Berries/png's/GooseberryAdj.png.png"
+dest_files=[ "res://.import/GooseberryAdj.png.png-f6a7f06082f28de3649cae6ef69ba331.stex" ]
 
 [params]
 

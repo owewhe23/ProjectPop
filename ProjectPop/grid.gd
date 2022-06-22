@@ -320,10 +320,11 @@ func match_all_in_column(column):
 	for i in height:
 		if all_berries[column][i] != null:
 			if all_berries[column][i].is_row_bomb:
-				match_all_in_row(i)
+				#match_all_in_row(i)
 				break
 			if all_berries[column][i].is_adjacent_bomb:
-				find_adjacent_berries(column, i)
+				#find_adjacent_berries(column, i)
+				pass
 			all_berries[column][i].matched = true
 
 
@@ -331,9 +332,11 @@ func match_all_in_row(row):
 	for i in width:
 		if all_berries[i][row] != null:
 			if all_berries[i][row].is_column_bomb:
-				match_all_in_column(i)
+				#match_all_in_column(i)
+				pass
 			if all_berries[i][row].is_adjacent_bomb:
-				find_adjacent_berries(i, row)
+				#find_adjacent_berries(i, row)
+				pass
 			all_berries[i][row].matched = true
 
 func find_adjacent_berries(column, row):
