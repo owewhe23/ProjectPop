@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/CherryRow.png.png-e6fd7516795c793f056c96175f3868ec.stex"
+path="res://.import/CherryCol.png.png-1252cb6c2fc8744311926327dfc41361.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Berries/png's/CherryRow.png.png"
-dest_files=[ "res://.import/CherryRow.png.png-e6fd7516795c793f056c96175f3868ec.stex" ]
+source_file="res://Berries/png's/CherryCol.png.png"
+dest_files=[ "res://.import/CherryCol.png.png-1252cb6c2fc8744311926327dfc41361.stex" ]
 
 [params]
 
