@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/PeachBackdrop.png.png-38b0fca8bc1f2b5e8d0991beacbb624b.stex"
+path="res://.import/Cool Text - BerryBurst 414080430830960.png-382119064af0b639a3d88a2a7b3b4356.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://PeachBackdrop.png.png"
-dest_files=[ "res://.import/PeachBackdrop.png.png-38b0fca8bc1f2b5e8d0991beacbb624b.stex" ]
+source_file="res://Cool Text - BerryBurst 414080430830960.png"
+dest_files=[ "res://.import/Cool Text - BerryBurst 414080430830960.png-382119064af0b639a3d88a2a7b3b4356.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=false
+flags/filter=true
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2
@@ -31,5 +31,5 @@ process/invert_color=false
 process/normal_map_invert_y=false
 stream=false
 size_limit=0
-detect_3d=false
+detect_3d=true
 svg/scale=1.0

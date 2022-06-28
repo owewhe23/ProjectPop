@@ -1,5 +1,6 @@
 extends Node2D
 
+signal time()
 signal burst
 signal row_col
 signal adj
@@ -44,6 +45,11 @@ func _ready():
 	all_berries = make_2d_array()
 	spawn_berries()
 	$AudioStreamPlayer2D.play()
+
+func timer():
+	if global.timed == true:
+		$grid/game_timer.start()
+		emit_signal("time")
 
 
 func make_2d_array():
@@ -246,15 +252,15 @@ func change_bomb(bomb_type, berry):
 	if bomb_type == 0:
 		berry.make_adjacent_bomb()
 		emit_signal("adj")
-		connect("adj", $UI/Label,"scored_adj")
+		connect("adj", $UI/Score,"scored_adj")
 	elif bomb_type == 2:
 		berry.make_row_bomb()
 		emit_signal("row_col")
-		connect("row_col", $UI/Label,"scored_row_col")
+		connect("row_col", $UI/Score,"scored_row_col")
 	elif bomb_type == 1:
 		berry.make_column_bomb()
 		emit_signal("row_col")
-		connect("row_col", $UI/Label,"scored_row_col")
+		connect("row_col", $UI/Score,"scored_row_col")
 
 
 func destroy_matches():
@@ -268,7 +274,7 @@ func destroy_matches():
 					all_berries[i][j].queue_free()
 					all_berries[i][j] = null
 					emit_signal("burst")
-					connect("burst", $UI/Label,"scored")
+					connect("burst", $UI/Score,"scored")
 	move_checked = true
 	if was_matched:
 		get_parent().get_node("collapse_timer").start()
