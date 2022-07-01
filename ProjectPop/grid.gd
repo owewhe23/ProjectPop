@@ -36,7 +36,7 @@ var move_checked = false
 var first_click = Vector2(0,0)
 var last_click = Vector2(0,0)
 var controlling = false
-
+var playing = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -45,11 +45,13 @@ func _ready():
 	all_berries = make_2d_array()
 	spawn_berries()
 	$AudioStreamPlayer2D.play()
+	timer()
 
 func timer():
 	if global.timed == true:
-		$grid/game_timer.start()
+		$UI/Time/game_timer.start()
 		emit_signal("time")
+		global.timed = false
 
 
 func make_2d_array():
@@ -104,7 +106,7 @@ func click_input():
 	if Input.is_action_just_pressed("click"):
 		first_click = get_global_mouse_position()
 		var grid_position = pixel_to_grid(first_click.x, first_click.y)
-		if is_in_grid(grid_position.x, grid_position.y):
+		if is_in_grid(grid_position.x, grid_position.y) && playing:
 			controlling = true
 		else:
 			controlling = false
@@ -366,3 +368,6 @@ func _on_collapse_timer_timeout():
 
 func _on_refill_timer_timeout():
 	refill_columns()
+
+func _on_game_timer_timeout():
+	playing = false

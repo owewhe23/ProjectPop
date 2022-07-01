@@ -8,13 +8,15 @@ func _ready():
 
 
 func _on_Timed_pressed():
-	get_tree().change_scene("res://Loading.tscn")
 	global.timed = true
+	get_tree().change_scene("res://Loading.tscn")
+	
 
 
 func _on_Casual_pressed():
-	get_tree().change_scene("res://Loading.tscn")
 	global.timed = false
+	get_tree().change_scene("res://Loading.tscn")
+	
 
 func _on_Quit_pressed():
 	get_tree().quit()
