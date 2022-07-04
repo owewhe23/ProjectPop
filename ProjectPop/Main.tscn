@@ -57,7 +57,7 @@ text = "Time:"
 script = ExtResource( 6 )
 
 [node name="game_timer" type="Timer" parent="grid/UI/Time"]
-wait_time = 300.0
+wait_time = 5.0
 one_shot = true
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="grid"]
@@ -76,6 +76,7 @@ wait_time = 0.5
 one_shot = true
 
 [connection signal="timeout" from="grid/UI/Time/game_timer" to="grid" method="_on_game_timer_timeout"]
+[connection signal="timeout" from="grid/UI/Time/game_timer" to="grid/UI/Score" method="_on_game_timer_timeout"]
 [connection signal="timeout" from="destroy_timer" to="grid" method="_on_destroy_timer_timeout"]
 [connection signal="timeout" from="collapse_timer" to="grid" method="_on_collapse_timer_timeout"]
 [connection signal="timeout" from="refill_timer" to="grid" method="_on_refill_timer_timeout"]

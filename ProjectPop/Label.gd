@@ -16,3 +16,7 @@ func scored_row_col():
 func scored_adj():
 	score = score + 75
 	text = "Score: %s" % score
+
+
+func _on_game_timer_timeout():
+	global.endscore = score

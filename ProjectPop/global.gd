@@ -1,7 +1,12 @@
 extends Node
 
 var timed
-var end_score
+var endscore
+var high_score1
+var high_score2
+var high_score3
+var high_score4
+var high_score5
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

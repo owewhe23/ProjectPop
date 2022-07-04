@@ -371,3 +371,4 @@ func _on_refill_timer_timeout():
 
 func _on_game_timer_timeout():
 	playing = false
+	get_tree().change_scene("res://End.tscn")
