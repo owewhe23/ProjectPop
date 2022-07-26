@@ -8,6 +8,7 @@ export (Texture) var adjacent_texture
 var is_row_bomb = false
 var is_adjacent_bomb = false
 var is_column_bomb = false
+var is_wild_bomb = false
 
 var move_tween
 var matched = false
@@ -18,6 +19,9 @@ func _ready():
 func move(target):
 	move_tween.interpolate_property(self, "position", position, target, .3, Tween.TRANS_BACK, Tween.EASE_OUT)
 	move_tween.start()
+
+func make_wild_bomb():
+	is_wild_bomb = true
 
 func make_column_bomb():
 	is_column_bomb = true
