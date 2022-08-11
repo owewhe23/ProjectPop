@@ -17,6 +17,9 @@ func scored_adj():
 	score = score + 75
 	text = "Score: %s" % score
 
+func scored_wild():
+	score = score + 250
+	text = "Score: %s" % score
 
 func _on_game_timer_timeout():
 	global.endscore = score

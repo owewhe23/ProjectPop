@@ -1,0 +1,29 @@
+[gd_scene format=2]
+
+[node name="CanvasLayer" type="CanvasLayer"]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_right = 1920.0
+margin_bottom = 1080.0
+color = Color( 0, 0, 0, 0.482353 )
+
+[node name="Button" type="Button" parent="."]
+margin_left = 928.0
+margin_top = 450.0
+margin_right = 992.0
+margin_bottom = 20.0
+text = "Resume"
+
+[node name="Button2" type="Button" parent="."]
+margin_left = 928.0
+margin_top = 471.0
+margin_right = 992.0
+margin_bottom = 20.0
+text = "Menu"
+
+[node name="Button3" type="Button" parent="."]
+margin_left = 928.0
+margin_top = 492.0
+margin_right = 992.0
+margin_bottom = 20.0
+text = "Run Off"

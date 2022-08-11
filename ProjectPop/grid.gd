@@ -4,6 +4,7 @@ signal time()
 signal burst
 signal row_col
 signal adj
+signal wild
 
 enum {wait, move}
 var state
@@ -44,7 +45,7 @@ func _ready():
 	randomize()
 	all_berries = make_2d_array()
 	spawn_berries()
-	$AudioStreamPlayer2D.play()
+	#$AudioStreamPlayer2D.play()
 	timer()
 
 func timer():
@@ -210,6 +211,8 @@ func add_to_array(value, array_to_add = current_matches):
 func _process(_delta):
 	if state == move:
 		click_input()
+	if Input.is_action_just_pressed("ui_cancel"):
+		get_tree().change_scene("res://Menu.tscn")
 
 func find_bombs():
 	for i in current_matches.size():
@@ -224,10 +227,10 @@ func find_bombs():
 			var this_colour = all_berries[current_column][current_row].colour
 			if this_column == current_column and current_colour == this_colour:
 				col_matched += 1
-			if this_row == current_row and this_colour == current_colour:
+			if this_row == current_row and current_colour == this_colour:
 				row_matched += 1
 		if col_matched == 5 or row_matched == 5:
-			print("colour bomb")
+			make_bombs(3, current_colour)
 			break
 		elif col_matched >= 3 and row_matched >= 3:
 			make_bombs(0, current_colour)
@@ -246,7 +249,7 @@ func make_bombs(bomb_type, colour):
 		if all_berries[current_column][current_row] == berry_one and berry_one.colour:
 			berry_one.matched = false
 			change_bomb(bomb_type, berry_one)
-		elif all_berries[current_column][current_row] == berry_two and berry_two.colour:
+		if all_berries[current_column][current_row] == berry_two and berry_two.colour:
 			berry_two.matched = false
 			change_bomb(bomb_type, berry_two)
 
@@ -263,6 +266,10 @@ func change_bomb(bomb_type, berry):
 		berry.make_column_bomb()
 		emit_signal("row_col")
 		connect("row_col", $UI/Score,"scored_row_col")
+	elif bomb_type == 3:
+		berry.make_colour_bomb()
+		emit_signal("wild")
+		connect("wild", $UI/Score, "scored_wild")
 
 
 func destroy_matches():
@@ -283,6 +290,21 @@ func destroy_matches():
 	else:
 		swap_back()
 	current_matches.clear()
+
+func match_colour(colour):
+	for i in width:
+		for j in height:
+			if all_berries[i][j] != null:
+				if all_berries[i][j].colour == colour:
+					all_berries[i][j].match_and_dim()
+					add_to_array(Vector2(i, j))
+
+func clear_board():
+	for i in width:
+		for j in height:
+			if all_berries[j][j] != null:
+				all_berries[i][j].match_and_dim()
+				add_to_array(Vector2(i,j))
 
 func collapse_columns():
 	find_bombs()
