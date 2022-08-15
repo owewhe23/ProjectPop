@@ -122,6 +122,11 @@ func swap_berries(column, row, direction):
 	var first_berry = all_berries[column][row]
 	var other_berry = all_berries[column + direction.x][row + direction.y]
 	if first_berry != null && other_berry != null:
+		if is_colour_bomb(first_berry, other_berry):
+			if first_berry.colour == "Colour":
+				match_colour(other_berry.colour)
+			else:
+				match_colour(first_berry.colour)
 		store_info(first_berry, other_berry, Vector2(column, row), direction)
 		state = wait
 		all_berries[column][row] = other_berry
@@ -130,6 +135,12 @@ func swap_berries(column, row, direction):
 		other_berry.move(grid_to_pixel(column, row))
 		if !move_checked:
 			find_matches()
+
+func is_colour_bomb(berry_one, berry_two):
+	if berry_one.colour == "Colour" or berry_two.colour == "Colour":
+		return true
+	return false
+	
 
 func click_difference(grid_1, grid_2):
 	var difference = grid_2 - grid_1
