@@ -18,8 +18,8 @@ export (int) var offset
 export (int) var y_offset
 
 var possible_berries = [
-preload("res://Berries/Scenes/BlackBerry.tscn"),
-preload("res://Berries/Scenes/Blueberry.tscn"),
+#preload("res://Berries/Scenes/BlackBerry.tscn"),
+#preload("res://Berries/Scenes/Blueberry.tscn"),
 preload("res://Berries/Scenes/GreenBerry.tscn"),
 preload("res://Berries/Scenes/RedBerry.tscn"),
 preload("res://Berries/Scenes/YellowBerry.tscn")
@@ -125,8 +125,10 @@ func swap_berries(column, row, direction):
 		if is_colour_bomb(first_berry, other_berry):
 			if first_berry.colour == "Colour":
 				match_colour(other_berry.colour)
+				match_and_dim(first_berry)
 			else:
 				match_colour(first_berry.colour)
+				match_and_dim(other_berry)
 		store_info(first_berry, other_berry, Vector2(column, row), direction)
 		state = wait
 		all_berries[column][row] = other_berry
@@ -168,6 +170,10 @@ func swap_back():
 	move_checked = false
 	pass
 
+func match_and_dim(item):
+	item.matched = true
+	item.dim()
+
 func find_matches():
 	for i in width:
 		for j in height:
@@ -176,25 +182,18 @@ func find_matches():
 				if i > 0 && i < width - 1:
 					if all_berries[i-1][j] != null && all_berries[i+1][j] != null:
 						if all_berries[i-1][j].colour == current_colour && all_berries[i+1][j].colour == current_colour:
-							all_berries[i-1][j].matched = true
-							all_berries[i-1][j].dim()
-							all_berries[i][j].matched = true
-							all_berries[i][j].dim()
-							all_berries[i+1][j].matched = true
-							all_berries[i+1][j].dim()
+							match_and_dim(all_berries[i-1][j])
+							match_and_dim(all_berries[i][j])
+							match_and_dim(all_berries[i+1][j])
 							add_to_array(Vector2(i, j))
 							add_to_array(Vector2(i+1, j))
 							add_to_array(Vector2(i-1, j))
-							
 				if j > 0 && j < height - 1:
 					if all_berries[i][j-1] != null && all_berries[i][j+1] != null:
 						if all_berries[i][j-1].colour == current_colour && all_berries[i][j+1].colour == current_colour:
-							all_berries[i][j-1].matched = true
-							all_berries[i][j-1].dim()
-							all_berries[i][j].matched = true
-							all_berries[i][j].dim()
-							all_berries[i][j+1].matched = true
-							all_berries[i][j+1].dim()
+							match_and_dim(all_berries[i][j-1])
+							match_and_dim(all_berries[i][j])
+							match_and_dim(all_berries[i][j+1])
 							add_to_array(Vector2(i, j))
 							add_to_array(Vector2(i, j+1))
 							add_to_array(Vector2(i, j-1))
@@ -307,14 +306,14 @@ func match_colour(colour):
 		for j in height:
 			if all_berries[i][j] != null:
 				if all_berries[i][j].colour == colour:
-					all_berries[i][j].match_and_dim()
+					match_and_dim(all_berries[i][j])
 					add_to_array(Vector2(i, j))
 
 func clear_board():
 	for i in width:
 		for j in height:
 			if all_berries[j][j] != null:
-				all_berries[i][j].match_and_dim()
+				match_and_dim(all_berries[i][j])
 				add_to_array(Vector2(i,j))
 
 func collapse_columns():
