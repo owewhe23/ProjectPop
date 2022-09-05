@@ -18,8 +18,8 @@ export (int) var offset
 export (int) var y_offset
 
 var possible_berries = [
-#preload("res://Berries/Scenes/BlackBerry.tscn"),
-#preload("res://Berries/Scenes/Blueberry.tscn"),
+preload("res://Berries/Scenes/BlackBerry.tscn"),
+preload("res://Berries/Scenes/Blueberry.tscn"),
 preload("res://Berries/Scenes/GreenBerry.tscn"),
 preload("res://Berries/Scenes/RedBerry.tscn"),
 preload("res://Berries/Scenes/YellowBerry.tscn")
@@ -122,13 +122,15 @@ func swap_berries(column, row, direction):
 	var first_berry = all_berries[column][row]
 	var other_berry = all_berries[column + direction.x][row + direction.y]
 	if first_berry != null && other_berry != null:
-		if is_colour_bomb(first_berry, other_berry):
-			if first_berry.colour == "Colour":
-				match_colour(other_berry.colour)
-				match_and_dim(first_berry)
-			else:
-				match_colour(first_berry.colour)
-				match_and_dim(other_berry)
+#		if is_colour_bomb(first_berry, other_berry):
+#			if first_berry.colour == "Colour":
+#				match_colour(other_berry.colour)
+#				match_and_dim(first_berry)
+#				add_to_array(Vector2(column, row))
+#			else:
+#				match_colour(first_berry.colour)
+#				match_and_dim(other_berry)
+#				add_to_array(Vector2(column + direction.x, row + direction.y))
 		store_info(first_berry, other_berry, Vector2(column, row), direction)
 		state = wait
 		all_berries[column][row] = other_berry
@@ -138,10 +140,10 @@ func swap_berries(column, row, direction):
 		if !move_checked:
 			find_matches()
 
-func is_colour_bomb(berry_one, berry_two):
-	if berry_one.colour == "Colour" or berry_two.colour == "Colour":
-		return true
-	return false
+#func is_colour_bomb(berry_one, berry_two):
+#	if berry_one.colour == "Colour" or berry_two.colour == "Colour":
+#		return true
+#	return false
 	
 
 func click_difference(grid_1, grid_2):
@@ -234,15 +236,15 @@ func find_bombs():
 		for j in current_matches.size():
 			var this_column = current_matches[j].x
 			var this_row = current_matches[j].y
-			var this_colour = all_berries[current_column][current_row].colour
+			var this_colour = all_berries[this_column][this_row].colour
 			if this_column == current_column and current_colour == this_colour:
 				col_matched += 1
 			if this_row == current_row and current_colour == this_colour:
 				row_matched += 1
-		if col_matched == 5 or row_matched == 5:
-			make_bombs(3, current_colour)
-			break
-		elif col_matched >= 3 and row_matched >= 3:
+#		if col_matched == 5 or row_matched == 5:
+#			make_bombs(3, current_colour)
+#			break
+		if col_matched >= 3 and row_matched >= 3:
 			make_bombs(0, current_colour)
 			break
 		elif col_matched == 4:
@@ -276,10 +278,10 @@ func change_bomb(bomb_type, berry):
 		berry.make_column_bomb()
 		emit_signal("row_col")
 		connect("row_col", $UI/Score,"scored_row_col")
-	elif bomb_type == 3:
-		berry.make_colour_bomb()
-		emit_signal("wild")
-		connect("wild", $UI/Score, "scored_wild")
+#	elif bomb_type == 3:
+#		berry.make_colour_bomb()
+#		emit_signal("wild")
+#		connect("wild", $UI/Score, "scored_wild")
 
 
 func destroy_matches():

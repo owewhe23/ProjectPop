@@ -33,17 +33,26 @@ func make_column_bomb():
 	is_column_bomb = true
 	$Sprite.texture = column_texture
 	$Sprite.modulate = Color(1, 1, 1, 1)
+	scale.x = 1
+	scale.y = 1
+	
 
 func make_row_bomb():
 	is_row_bomb = true
 	$Sprite.texture = row_texture
 	$Sprite.modulate = Color(1, 1, 1, 1)
+	scale.x = 1
+	scale.y = 1
 
 func make_adjacent_bomb():
 	is_adjacent_bomb = true
 	$Sprite.texture = adjacent_texture
 	$Sprite.modulate = Color(1, 1, 1, 1)
+	scale.x = 1
+	scale.y = 1
 
 func dim():
 	var sprite = get_node("Sprite")
 	sprite.modulate = Color(1, 1, 1, 0.5)
+	scale.x = 1
+	scale.y = 1

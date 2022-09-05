@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Hyper - Spoiler _ Cyberpunk 2077 OST.mp3-d29800cdf3c0b03f85a3b68ae7279419.mp3str"
+
+[deps]
+
+source_file="res://Hyper - Spoiler _ Cyberpunk 2077 OST.mp3"
+dest_files=[ "res://.import/Hyper - Spoiler _ Cyberpunk 2077 OST.mp3-d29800cdf3c0b03f85a3b68ae7279419.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

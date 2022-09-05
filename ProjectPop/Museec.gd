@@ -11,9 +11,10 @@ func _ready():
 	pass
 
 func _process(delta):
-	if not is_playing():
-		play()
-
+	if get_tree().get_current_scene().get_name() == "Menu":
+		$AnimationPlayer.play("Menu")
+	if get_tree().get_current_scene().get_name() == "Main":
+		$AnimationPlayer.play("Main")
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
